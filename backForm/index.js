@@ -1,12 +1,12 @@
 import express, { json } from "express";
 import cors from "cors"
-import { registro } from "./src/routes/registro.routing.js";
+import { create } from "./src/routes/create.routing.js";
 
 export const app = express();
 
 app.use(cors())
 app.use(json())
-app.use(registro)
+app.use(create)
 
 // Server -->
 app.set('port',4000);
