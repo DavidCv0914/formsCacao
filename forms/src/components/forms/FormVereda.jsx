@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { createMunicipio } from "../../api/api";
+import { createVereda } from "../../api/api";
 import { ModalSearch } from "../formSearch/ModalSearch";
 
 export const FormVereda = (props)=>{
@@ -16,16 +16,10 @@ export const FormVereda = (props)=>{
     const [type, setType] = useState("");
 
     const recibirDatos = (datos) => {
-        if (datos.empresa) {
-          setChoice(datos.empresa);
-        }
-        if (datos.persona) {
-          setPerson(datos.persona);
-        }
 
-        if (datos.departamento) {
-            setChoice(datos.departamento);
-          }
+        if (datos.municipio) {
+          setChoice(datos.municipio);
+        }
         
         setEventModal(datos.close);
       };
@@ -36,17 +30,16 @@ export const FormVereda = (props)=>{
     };
 
     const handleCloseSave = async() => {
-
-
         if (nameVereda.current.value == "" || nameMunicipio.current.value == "") {
             alert("Complete los campos")
         }else{
-            const resp = await createMunicipio({name:nameVereda.current.value,dep:nameMunicipio.current.value})
+            const resp = await createVereda({name:nameVereda.current.value, mun:nameMunicipio.current.value})
+            console.log(resp);
             if (resp.data == "create") {
                 setShow(false);
                 props.devolucion({close:false}); 
             }else if(resp.data == "exist"){
-                alert("El Municipio ya extiste")
+                alert("La Vereda ya extiste")
             }else if(resp.data == "no create"){
                 alert("Hubo un error con la creacón")
             }else if(resp.data == "procedence invalid"){
@@ -93,7 +86,7 @@ export const FormVereda = (props)=>{
             id="button-addon2" 
             onClick={() => {
             setEventModal(!eventModal);
-            setType("Departamento");
+            setType("Municipio");
           }}>
               <box-icon name='search' color="rgb(255 255 255)"></box-icon>
             </Button>

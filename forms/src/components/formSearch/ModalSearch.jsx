@@ -8,7 +8,7 @@ import Row from "react-bootstrap/Row";
 import InputGroup from "react-bootstrap/InputGroup";
 import 'boxicons';
 // import { listEmpresa, listPerson } from "../../api/api";
-import { getDep } from "../../api/api";
+import { getDep, getMun } from "../../api/api";
 
 export const ModalSearch = (props) => {
     const element = useRef(null)
@@ -29,6 +29,9 @@ export const ModalSearch = (props) => {
         if (props.search.type == "Departamento") {
             setPlaceHolder("Por codigo")
         }
+        if (props.search.type == "Municipio") {
+            setPlaceHolder("Por codigo")
+        }
     }, [props]);
     const handleCloseSave = () => {
         setShow(false);
@@ -41,6 +44,9 @@ export const ModalSearch = (props) => {
                 break;
             case "Departamento":
                 props.devolucion({ departamento: choice, close: false });
+                break;
+            case "Municipio":
+                props.devolucion({ municipio: choice, close: false });
                 break;
             default:
                 break;
@@ -81,11 +87,20 @@ export const ModalSearch = (props) => {
                     setOptions(result.data);
                 }
                 break;
+            case "Municipio":
+                if (typeSearch == "nombre") {
+                    const result = await getMun({ name: content });
+                    setOptions(result.data);
+                } else if (typeSearch == "codigo") {
+                    const result = await getMun({ cod: content });
+                    setOptions(result.data);
+                }
+                    break;
             default:
                 break;
         }
     };
-
+    
     useEffect(() => {
         const handleKeyDown = (event) => {
             const scrollableElement = element.current;
@@ -109,13 +124,21 @@ export const ModalSearch = (props) => {
     }, []);
 
     const handleStyle = (option) => {
-        if (choice.idempresa == option.idempresa) {
+
+
+        if (choice.idmunicipio == option.idmunicipio && choice.idmunicipio != undefined) {
             return { backgroundColor: "#76A6E7", cursor: "pointer" }
-        } else {
+        }
+        else if(choice.iddepartamento == option.iddepartamento && choice.iddepartamento != undefined){
+            return { backgroundColor: "#76A6E7", cursor: "pointer" }
+        }
+        else if (choice.idempresa == option.idempresa && choice.idempresa != undefined) {
+            return { backgroundColor: "#76A6E7", cursor: "pointer" }
+        }
+        else {
             return { backgroundColor: "initial", cursor: "pointer" }
         }
     }
-
     return (
         <>
             <Modal centered show={show} onHide={handleClose}>
@@ -187,7 +210,7 @@ export const ModalSearch = (props) => {
                                     : null}
                                 {options.length > 0 && props.search.type == "Persona"
                                     ? options.map((option) => (
-                                        <Row className="col" key={option.idusuario}>
+                                        <Row className="col" style={handleStyle(option)} key={option.idusuario}>
                                             <Col style={handleStyle(option)} xs={12} md={8} onClick={() => setChoice(option)}>
                                                 identificación: {option.idusuario}
                                             </Col>
@@ -209,6 +232,18 @@ export const ModalSearch = (props) => {
                                         </Row>
                                     ))
                                     : null}
+                                {options.length > 0 && props.search.type == "Municipio"
+                                    ? options.map((option) => (
+                                        <Row className="col" key={option.iddepartamento}>
+                                            <Col style={handleStyle(option)} xs={12} md={8} onClick={() => setChoice(option)}>
+                                                codigo: {option.idmunicipio}
+                                            </Col>
+                                            <Col style={handleStyle(option)} xs={6} md={4} onClick={() => setChoice(option)}>
+                                                {option.nombre}
+                                            </Col>
+                                        </Row>
+                                    ))
+                                    : null}
                             </Container> :
 
                                 <Container ref={element} style={{ height: "100px" }}>
@@ -217,7 +252,7 @@ export const ModalSearch = (props) => {
                                     ) : null}
                                     {options.length > 0 && props.search.type == "Empresa"
                                         ? options.map((option) => (
-                                            <Row className="col" key={option.idempresa}>
+                                            <Row className="col"  key={option.idempresa}>
                                                 <Col style={{ cursor: "pointer" }} xs={12} md={8} onClick={() => setChoice(option)}>
                                                     nit: {option.nit}
                                                 </Col>
@@ -229,7 +264,7 @@ export const ModalSearch = (props) => {
                                         : null}
                                     {options.length > 0 && props.search.type == "Persona"
                                         ? options.map((option) => (
-                                            <Row className="col" key={option.idusuario}>
+                                            <Row className="col" style={handleStyle(option)} key={option.idusuario}>
                                                 <Col style={{ cursor: "pointer" }} xs={12} md={8} onClick={() => setChoice(option)}>
                                                     identificación: {option.idusuario}
                                                 </Col>
@@ -242,10 +277,22 @@ export const ModalSearch = (props) => {
                                     {options.length > 0 && props.search.type == "Departamento"
                                     ? options.map((option) => (
                                         <Row className="col" key={option.iddepartamento}>
-                                            <Col xs={12} md={8} onClick={() => setChoice(option)}>
+                                            <Col style={handleStyle(option)} xs={12} md={8} onClick={() => setChoice(option)}>
                                                 codigo: {option.iddepartamento}
                                             </Col>
-                                            <Col xs={6} md={4} onClick={() => setChoice(option)}>
+                                            <Col style={handleStyle(option)} xs={6} md={4} onClick={() => setChoice(option)}>
+                                                {option.nombre}
+                                            </Col>
+                                        </Row>
+                                    ))
+                                    : null}
+                                    {options.length > 0 && props.search.type == "Municipio"
+                                    ? options.map((option) => (
+                                        <Row className="col" key={option.iddepartamento}>
+                                            <Col style={handleStyle(option)} xs={12} md={8} onClick={() => setChoice(option)}>
+                                                codigo: {option.idmunicipio}
+                                            </Col>
+                                            <Col style={handleStyle(option)} xs={6} md={4} onClick={() => setChoice(option)}>
                                                 {option.nombre}
                                             </Col>
                                         </Row>

@@ -16,3 +16,9 @@ export const getDep = async(values) =>
 
 export const createMunicipio = async(values) =>
     await axios.post(`${url}/createMunicipio`, values)
+
+export const getMun = async(values) =>
+    await axios.post(`${url}/getMun`, values)   
+
+export const createVereda = async(values) =>
+    await axios.post(`${url}/createVereda`, values)

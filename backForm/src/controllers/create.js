@@ -135,3 +135,63 @@ export const createMunicipio = async (req, res) => {
     return res.status(404).json({ message: "ERROR 404", error });
   }
 };
+
+export const createVereda = async (req, res) => {
+  try {
+    let { name, mun } = req.body;
+    console.log(req.body);
+    if (name && mun) {
+      const [municipioConsult] = await conexion.query(`SELECT idmunicipio FROM municipios WHERE nombre = ?`, [mun]);
+      if (municipioConsult.length > 0) {
+        const [exist] = await conexion.query("SELECT nombre FROM veredas WHERE nombre=?", [name]);
+        if (exist.length == 0) {
+          const [count] = await conexion.query(`SELECT COUNT(*) AS numero_registros FROM veredas`);
+
+          const [create] = await conexion.query("INSERT INTO veredas(idvereda,nombre,idmunicipio) VALUES (?,?,?)", [count[0].numero_registros + 1, name, municipioConsult[0].idmunicipio])
+          if (create.affectedRows) {
+            res.json("create")
+          } else {
+            console.log(create);
+            res.json("no create")
+          }
+
+        } else {
+          console.log("exist");
+          res.json("exist")
+        }
+      } else {
+        res.json("procedence invalid")
+      }
+
+    } else {
+      res.json("Not information")
+    }
+
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ message: "ERROR 404", error });
+  }
+};
+
+export const getMunDependencia = async (req, res) => {
+  try {
+    let { name, cod } = req.body
+
+    if (name) {
+      console.log(req.body);
+      const [resp] = await conexion.query(`SELECT * FROM municipios WHERE nombre LIKE "%${name}%"`);
+      console.log(resp);
+      res.json(resp)
+    }
+
+    if (cod) {
+      const [resp] = await conexion.query(`SELECT * FROM municipios WHERE idmunicipio LIKE "%${cod}%"`);
+      console.log(resp);
+      res.json(resp)
+    }
+
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ message: "ERROR 404", error });
+  }
+};
