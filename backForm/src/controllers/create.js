@@ -195,3 +195,51 @@ export const getMunDependencia = async (req, res) => {
     return res.status(404).json({ message: "ERROR 404", error });
   }
 };
+
+export const getRol = async (req, res) => {
+  try {
+
+    const [rol] = await conexion.query("SELECT * FROM usuarios_roles");
+
+    res.json(rol)
+
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ message: "ERROR 404", error });
+  }
+};
+
+export const getGroup = async (req, res) => {
+  try {
+
+    const [rol] = await conexion.query("SELECT * FROM usuarios_grupos");
+
+    res.json(rol)
+
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ message: "ERROR 404", error });
+  }
+};
+
+
+export const createUser = async (req,res) => {
+  try {
+    let {id,name,email,mun,address,number,rol,group,password} = req.body
+    console.log(req.body);
+    const [codMun] = await conexion.query("SELECT idmunicipio FROM municipios WHERE nombre = ? ",[mun]);
+    const [user] = await conexion.query("INSERT INTO usuarios (idusuario, nombre, correo, password, idmunicipio, direccion, telefonos, idrol, idgrupousu, estado) VALUES (?,?,?,?,?,?,?,?,?,?)",[id,name,email,password,codMun[0].idmunicipio,address,number,rol,group,"activo"]);
+
+    console.log(user);
+    console.log(user.affectedRows);
+    if (user.affectedRows != 0) {
+      res.json("create")
+    }else{
+      res.json("no create")
+    }
+    
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ message: "ERROR 404", error }); 
+  }
+};

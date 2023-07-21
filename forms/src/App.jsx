@@ -4,6 +4,7 @@ import { FormPais } from "./components/forms/FormPais";
 import { FormDepartamento } from "./components/forms/FormDepartamento";
 import { FormMunicipio } from "./components/forms/FormMunicipio";
 import { FormVereda } from "./components/forms/FormVereda";
+import { FormUsuario } from './components/forms/FormUsuario';
 
 const App = () => {
 
@@ -11,11 +12,13 @@ const App = () => {
   const [showDepartamento, setShowDepartamento] = useState(false);
   const [showMunicipio, setShowMunicipio] = useState(false);
   const [showVereda, setShowVereda] = useState(false);
+  const [showUsuario, setShowUsuario] = useState(false);
   
   const handleShowPais = () => setShowPais(!showPais);
   const handleShowDepartamento = () => setShowDepartamento(!showDepartamento);
   const handleShowMunicipio = () => setShowMunicipio(!showMunicipio);
   const handleShowVereda = () => setShowVereda(!showVereda);
+  const handleShowUsuario = () => setShowUsuario(!showUsuario);
 
   const recibirDatos = (datos) => {
     setShowPais(datos.close);
@@ -30,6 +33,10 @@ const App = () => {
 
   const recibirDatosVereda = (datos) => {
     setShowVereda(datos.close);
+  };
+
+  const recibirDatosUsuario = (datos) => {
+    setShowUsuario(datos.close);
   };
 
   return (
@@ -49,12 +56,16 @@ const App = () => {
       <Button variant="primary" onClick={handleShowVereda}>
         Crear Vereda
       </Button>
-      
+      {" "}
+      <Button variant="primary" onClick={handleShowUsuario}>
+        Crear Usuario
+      </Button>
 
       {showPais ? <FormPais devolucion={recibirDatos}/>: null}
       {showDepartamento ? <FormDepartamento devolucion={recibirDatosDepartamento}/>: null}
       {showMunicipio ? <FormMunicipio devolucion={recibirDatosMunicipio}/>: null}
       {showVereda ? <FormVereda devolucion={recibirDatosVereda}/>: null}
+      {showUsuario ? <FormUsuario devolucion={recibirDatosVereda}/>: null}
 
     </>
   )

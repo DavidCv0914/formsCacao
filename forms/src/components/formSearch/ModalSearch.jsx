@@ -199,10 +199,10 @@ export const ModalSearch = (props) => {
                                 {options.length > 0 && props.search.type == "Empresa"
                                     ? options.map((option) => (
                                         <Row className="col" key={option.idempresa}>
-                                            <Col style={handleStyle(option)} xs={12} md={8} onClick={() => setChoice(option)}>
+                                            <Col style={choice==option ? handleStyle(option) : {cursor:"pointer"}} xs={12} md={8} onClick={() => setChoice(option)}>
                                                 nit: {option.nit}
                                             </Col>
-                                            <Col style={handleStyle(option)} xs={6} md={4} onClick={() => setChoice(option)}>
+                                            <Col style={choice==option ? handleStyle(option) : {cursor:"pointer"}} xs={6} md={4} onClick={() => setChoice(option)}>
                                                 {option.nombre}
                                             </Col>
                                         </Row>
@@ -210,11 +210,11 @@ export const ModalSearch = (props) => {
                                     : null}
                                 {options.length > 0 && props.search.type == "Persona"
                                     ? options.map((option) => (
-                                        <Row className="col" style={handleStyle(option)} key={option.idusuario}>
-                                            <Col style={handleStyle(option)} xs={12} md={8} onClick={() => setChoice(option)}>
+                                        <Row className="col" style={choice==option ? handleStyle(option) : {cursor:"pointer"}} key={option.idusuario}>
+                                            <Col style={choice==option ? handleStyle(option) : {cursor:"pointer"}} xs={12} md={8} onClick={() => setChoice(option)}>
                                                 identificación: {option.idusuario}
                                             </Col>
-                                            <Col style={handleStyle(option)} xs={6} md={4} onClick={() => setChoice(option)}>
+                                            <Col style={choice==option ? handleStyle(option) : {cursor:"pointer"}} xs={6} md={4} onClick={() => setChoice(option)}>
                                                 {option.nombre}
                                             </Col>
                                         </Row>
@@ -234,11 +234,11 @@ export const ModalSearch = (props) => {
                                     : null}
                                 {options.length > 0 && props.search.type == "Municipio"
                                     ? options.map((option) => (
-                                        <Row className="col" key={option.iddepartamento}>
-                                            <Col style={handleStyle(option)} xs={12} md={8} onClick={() => setChoice(option)}>
+                                        <Row className="col" key={option.idmunicipio}>
+                                            <Col style={choice==option ? handleStyle(option) : {cursor:"pointer"}} xs={12} md={8} onClick={() => setChoice(option)}>
                                                 codigo: {option.idmunicipio}
                                             </Col>
-                                            <Col style={handleStyle(option)} xs={6} md={4} onClick={() => setChoice(option)}>
+                                            <Col style={choice==option ? handleStyle(option) : {cursor:"pointer"}} xs={6} md={4} onClick={() => setChoice(option)}>
                                                 {option.nombre}
                                             </Col>
                                         </Row>
@@ -264,7 +264,7 @@ export const ModalSearch = (props) => {
                                         : null}
                                     {options.length > 0 && props.search.type == "Persona"
                                         ? options.map((option) => (
-                                            <Row className="col" style={handleStyle(option)} key={option.idusuario}>
+                                            <Row className="col" style={choice==option ? handleStyle(option) : {cursor:"pointer"}} key={option.idusuario}>
                                                 <Col style={{ cursor: "pointer" }} xs={12} md={8} onClick={() => setChoice(option)}>
                                                     identificación: {option.idusuario}
                                                 </Col>
@@ -277,10 +277,10 @@ export const ModalSearch = (props) => {
                                     {options.length > 0 && props.search.type == "Departamento"
                                     ? options.map((option) => (
                                         <Row className="col" key={option.iddepartamento}>
-                                            <Col style={handleStyle(option)} xs={12} md={8} onClick={() => setChoice(option)}>
+                                            <Col style={choice==option ? handleStyle(option) : {cursor:"pointer"}} xs={12} md={8} onClick={() => setChoice(option)}>
                                                 codigo: {option.iddepartamento}
                                             </Col>
-                                            <Col style={handleStyle(option)} xs={6} md={4} onClick={() => setChoice(option)}>
+                                            <Col style={choice==option ? handleStyle(option) : {cursor:"pointer"}} xs={6} md={4} onClick={() => setChoice(option)}>
                                                 {option.nombre}
                                             </Col>
                                         </Row>
@@ -288,11 +288,11 @@ export const ModalSearch = (props) => {
                                     : null}
                                     {options.length > 0 && props.search.type == "Municipio"
                                     ? options.map((option) => (
-                                        <Row className="col" key={option.iddepartamento}>
-                                            <Col style={handleStyle(option)} xs={12} md={8} onClick={() => setChoice(option)}>
+                                        <Row className="col" key={option.idmunicipio}>
+                                            <Col style={choice==option ? choice==option ? handleStyle(option) : {cursor:"pointer"} : {cursor:"pointer"}} xs={12} md={8} onClick={() => setChoice(option)}>
                                                 codigo: {option.idmunicipio}
                                             </Col>
-                                            <Col style={handleStyle(option)} xs={6} md={4} onClick={() => setChoice(option)}>
+                                            <Col style={choice==option ? choice==option ? handleStyle(option) : {cursor:"pointer"} : {cursor:"pointer"}} xs={6} md={4} onClick={() => setChoice(option)}>
                                                 {option.nombre}
                                             </Col>
                                         </Row>
