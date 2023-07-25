@@ -65,7 +65,7 @@ const App = () => {
       {showDepartamento ? <FormDepartamento devolucion={recibirDatosDepartamento}/>: null}
       {showMunicipio ? <FormMunicipio devolucion={recibirDatosMunicipio}/>: null}
       {showVereda ? <FormVereda devolucion={recibirDatosVereda}/>: null}
-      {showUsuario ? <FormUsuario devolucion={recibirDatosVereda}/>: null}
+      {showUsuario ? <FormUsuario devolucion={recibirDatosUsuario}/>: null}
 
     </>
   )

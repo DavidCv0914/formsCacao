@@ -1,4 +1,5 @@
 import conexion from "../database/db.js";
+import bcrypt from "bcrypt";
 
 export const createPais = async (req, res) => {
   try {
@@ -227,16 +228,25 @@ export const createUser = async (req,res) => {
   try {
     let {id,name,email,mun,address,number,rol,group,password} = req.body
     console.log(req.body);
-    const [codMun] = await conexion.query("SELECT idmunicipio FROM municipios WHERE nombre = ? ",[mun]);
-    const [user] = await conexion.query("INSERT INTO usuarios (idusuario, nombre, correo, password, idmunicipio, direccion, telefonos, idrol, idgrupousu, estado) VALUES (?,?,?,?,?,?,?,?,?,?)",[id,name,email,password,codMun[0].idmunicipio,address,number,rol,group,"activo"]);
-
-    console.log(user);
-    console.log(user.affectedRows);
-    if (user.affectedRows != 0) {
-      res.json("create")
+    const [exist] = await conexion.query("SELECT * FROM usuarios WHERE idusuario = ? OR correo = ?",[id,email])
+    if (exist.length > 0) {
+      res.json("exist")
     }else{
-      res.json("no create")
+      const saltRounds = 10;
+      const salt = bcrypt.genSaltSync(saltRounds);
+      const hash = bcrypt.hashSync(password, salt);
+
+      const [codMun] = await conexion.query("SELECT idmunicipio FROM municipios WHERE nombre = ? ",[mun]);
+      const estado = "activo";
+      const [user] = await conexion.query("INSERT INTO usuarios (idusuario, nombre, correo, password, idmunicipio, direccion, telefonos, idrol, idgrupousu, estado) VALUES (?,?,?,?,?,?,?,?,?,?)",[id,name,email,hash,codMun[0].idmunicipio,address,number,rol,group,estado]);
+
+      if (user.affectedRows != 0) {
+        res.json("create")
+      }else{
+        res.json("no create")
+      }
     }
+    
     
   } catch (error) {
     console.log(error);
