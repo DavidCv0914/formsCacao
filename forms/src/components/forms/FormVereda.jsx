@@ -76,6 +76,10 @@ export const FormVereda = (props)=>{
               placeholder="Escriba"
               style={{outlineColor:"#5D1F06",boxShadow:"0 0 5px #5D1F06",border:"solid 1px #5D1F06"}}
               defaultValue={choice ? choice.nombre : null}
+              onClick={() => {
+                setEventModal(!eventModal);
+                setType("Municipio");
+              }}
             />
             <Button style={{
                  display: "flex",

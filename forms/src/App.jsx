@@ -105,7 +105,6 @@ const App = () => {
     const resp = await updateUser({id:id})
     if (resp.data == "update") {
       setBooleanUpdate(!booleanUpdate)
-      console.log("update");
     }
   }
 
@@ -141,13 +140,14 @@ const App = () => {
   return (
     <>
       <section
-        style={{ display: "flex", flexDirection: "column", height: "100vh" }}
+        style={{ display: "flex", flexDirection: "column", height: "100vh",alignItems:"center" }}
       >
         <div
           style={{
             display: "flex",
-            justifyContent: "space-around",
-            marginTop: "10vh",
+            justifyContent: "space-between",
+            marginTop: "20vh",
+            width:"700px"
           }}
         >
           <Button
@@ -212,13 +212,14 @@ const App = () => {
       </section>
 
       <section
-        style={{ display: "flex", flexDirection: "column", height: "100vh" }}
+        style={{ display: "flex", flexDirection: "column", height: "100vh",alignItems:"center" }}
       >
         <div
           style={{
             display: "flex",
-            justifyContent: "space-around",
-            marginTop: "10vh",
+            justifyContent: "space-between",
+            marginTop: "20vh",
+            width:"700px"
           }}
         >
           <Button  style={{
@@ -281,13 +282,14 @@ const App = () => {
       </section>
 
       <section
-        style={{ display: "flex", flexDirection: "column", height: "100vh" }}
+        style={{ display: "flex", flexDirection: "column", height: "100vh",alignItems:"center" }}
       >
         <div
           style={{
             display: "flex",
-            justifyContent: "space-around",
-            marginTop: "10vh",
+            justifyContent: "space-between",
+            marginTop: "20vh",
+            width:"700px"
           }}
         >
 
@@ -351,13 +353,14 @@ const App = () => {
       </section>
 
       <section
-        style={{ display: "flex", flexDirection: "column", height: "100vh" }}
+        style={{ display: "flex", flexDirection: "column", height: "100vh",alignItems:"center" }}
       >
         <div
           style={{
             display: "flex",
-            justifyContent: "space-around",
-            marginTop: "10vh",
+            justifyContent: "space-between",
+            marginTop: "20vh",
+            width:"700px"
           }}
         >
 
@@ -421,13 +424,14 @@ const App = () => {
       </section>
 
       <section
-        style={{ display: "flex", flexDirection: "column", height: "100vh" }}
+        style={{ display: "flex", flexDirection: "column", height: "100vh",alignItems:"center" }}
       >
         <div
           style={{
             display: "flex",
-            justifyContent: "space-around",
-            marginTop: "10vh",
+            justifyContent: "space-between",
+            marginTop: "20vh",
+            width:"800px"
           }}
         >
 
@@ -489,7 +493,7 @@ const App = () => {
                   <td>{val.correo}</td>
                   <td>{val.telefonos}</td>
                   <td>{val.estado == "A" ? "Activo" : "Inactivo"}</td>
-                  <td>{val.estado == "A" ? <Button variant="danger" onClick={() => update(val.idusuario)}>Inactivar</Button> : <Button variant="success" onClick={() => update(val.idusuario)}>Activar</Button>}</td>
+                  <td>{val.estado == "A" ? <Button style={{width:"90px"}} variant="danger" onClick={() => update(val.idusuario)}>Inactivar</Button> : <Button style={{width:"90px"}} variant="success" onClick={() => update(val.idusuario)}>Activar</Button>}</td>
                 </tr>
               );
             })}

@@ -16,7 +16,7 @@ export const FormUsuario = (props) => {
     const [choiceEmpresa, setChoiceEmpresa] = useState([]);
     const [eventModal, setEventModal] = useState(false);
     const [type, setType] = useState("");
-    const [user,setUser] = useState({id:"",name:"",email:"",mun:"",address:"",number:"",rol:0,empresa:"",password:""})
+    const [user,setUser] = useState({id:"",name:"",email:"",mun:"",address:"",number:"",rol:0,nameEmpresa:"",password:""})
 
     const recibirDatos = (datos) => {
 
@@ -47,8 +47,8 @@ export const FormUsuario = (props) => {
     },[])
 
     const handleCloseSave = async () => {
-      
-            const resp = await createUser(user)
+            
+            const resp = await createUser({...user,nameEmpresa:nameEmpresa.current.value,mun:nameMunicipio.current.value})
             console.log(resp);
             if (resp.data == "create") {
                 setShow(false);
@@ -72,7 +72,7 @@ export const FormUsuario = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form style={{display:"grid",gridTemplateColumns:"repeat(2, 1fr)",gridAutoRows:"minmax(auto, max-content)",gap:"10px"}}>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3" >
                             <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Número de identificación</Form.Label>
                             <Form.Control
                                 onChange={handleChange}
@@ -82,7 +82,7 @@ export const FormUsuario = (props) => {
                                 placeholder="Escriba..."
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3" >
                             <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Nombre completo</Form.Label>
                             <Form.Control
                                 onChange={handleChange}
@@ -92,7 +92,7 @@ export const FormUsuario = (props) => {
                                 placeholder="Escriba..."
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3" >
                             <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Correo</Form.Label>
                             <Form.Control
                                 onChange={handleChange}
@@ -102,7 +102,7 @@ export const FormUsuario = (props) => {
                                 placeholder="Escriba..."
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3" >
                             <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Contraseña</Form.Label>
                             <Form.Control
                                 onChange={handleChange}
@@ -121,6 +121,10 @@ export const FormUsuario = (props) => {
                                 style={{ outlineColor: "#5D1F06", boxShadow: "0 0 5px #5D1F06", border: "solid 1px #5D1F06" }}
                                 name="mun"
                                 defaultValue={choice ? choice.nombre : null}
+                                onClick={() => {
+                                    setEventModal(!eventModal);
+                                    setType("Municipio");
+                                }}
                             />
                             <Button style={{
                                 display: "flex",
@@ -128,7 +132,7 @@ export const FormUsuario = (props) => {
                                 backgroundColor: "#5D1F06",
                                 border: "solid 2px #5D1F06"
                             }}
-                                id="button-addon2"
+                                
                                 onClick={() => {
                                     setEventModal(!eventModal);
                                     setType("Municipio");
@@ -137,7 +141,7 @@ export const FormUsuario = (props) => {
                             </Button>
                         </InputGroup>
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3" >
                             <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Dirección</Form.Label>
                             <Form.Control
                                 onChange={handleChange}
@@ -147,7 +151,7 @@ export const FormUsuario = (props) => {
                                 placeholder="Escriba..."
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3" >
                             <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Télefonos</Form.Label>
                             <Form.Control
                                 onChange={handleChange}
@@ -157,7 +161,7 @@ export const FormUsuario = (props) => {
                                 placeholder="Escriba..."
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3" >
                         <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Rol</Form.Label>
                         <Form.Select onChange={handleChange} name="rol" style={{height:"39.5px",outlineColor: "#5D1F06", boxShadow: "0 0 5px #5D1F06", border: "solid 1px #5D1F06"}} aria-label="Default select example">
                             <option>Rol de usuario</option>
@@ -176,6 +180,10 @@ export const FormUsuario = (props) => {
                                 style={{ outlineColor: "#5D1F06", boxShadow: "0 0 5px #5D1F06", border: "solid 1px #5D1F06" }}
                                 name="mun"
                                 defaultValue={choiceEmpresa ? choiceEmpresa.nombre : null}
+                                onClick={() => {
+                                    setEventModal(!eventModal);
+                                    setType("Empresa");
+                                }}
                             />
                             <Button style={{
                                 display: "flex",
@@ -183,7 +191,7 @@ export const FormUsuario = (props) => {
                                 backgroundColor: "#5D1F06",
                                 border: "solid 2px #5D1F06"
                             }}
-                                id="button-addon2"
+                                
                                 onClick={() => {
                                     setEventModal(!eventModal);
                                     setType("Empresa");
@@ -192,7 +200,7 @@ export const FormUsuario = (props) => {
                             </Button>
                         </InputGroup>
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3" >
                             <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Foto</Form.Label>
                             <Form.Control
                                 style={{ outlineColor: "#5D1F06", boxShadow: "0 0 5px #5D1F06", border: "solid 1px #5D1F06" }}

@@ -257,7 +257,6 @@ export const getGroup = async (req, res) => {
 export const createUser = async (req,res) => {
   try {
     let {id,name,email,mun,address,number,rol,nameEmpresa,password} = req.body
-    console.log(req.body);
     const [exist] = await conexion.query("SELECT * FROM usuarios WHERE idusuario = ? OR correo = ?",[id,email])
     if (exist.length > 0) {
       res.json("exist")
@@ -265,11 +264,12 @@ export const createUser = async (req,res) => {
       const saltRounds = 10;
       const salt = bcrypt.genSaltSync(saltRounds);
       const hash = bcrypt.hashSync(password, salt);
-
+      const [codEmpresa] = await conexion.query("SELECT idempresa FROM empresas WHERE nombre = ? ",[nameEmpresa]);
       const [codMun] = await conexion.query("SELECT idmunicipio FROM municipios WHERE nombre = ? ",[mun]);
       const [user] = await conexion.query("INSERT INTO usuarios (idusuario, nombre, correo, password, idmunicipio, direccion, telefonos, idrol, estado) VALUES (?,?,?,?,?,?,?,?,?)",[id,name,email,hash,codMun[0].idmunicipio,address,number,rol,"A"]);
 
       if (user.affectedRows != 0) {
+        await conexion.query("INSERT INTO usuarios_empresas (idusuario,idempresa) Values (?,?)",[id,codEmpresa[0].idempresa]);
         res.json("create")
       }else{
         res.json("no create")
