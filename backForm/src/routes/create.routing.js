@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createDepartamento, createMunicipio, createPais, createUser, createVereda, getDepDependencia, getGroup, getMunDependencia, getPaises, getRol } from "../controllers/create.js";
+import { createDepartamento, createMunicipio, createPais, createUser, createVereda, getDep, getDepDependencia, getEmpresa, getGroup, getMun, getMunDependencia, getPaises, getPaisesName, getPerson, getPersonList, getRol, getVereda, getVeredaList, updateUser } from "../controllers/create.js";
 
 export const create = Router()
 
@@ -13,3 +13,12 @@ create.post("/createVereda", createVereda)
 create.post("/createUser",createUser)
 create.get("/getRol", getRol)
 create.get("/getGroup", getGroup)
+create.post("/getEmpresa", getEmpresa);
+create.post("/getPerson", getPerson);
+create.post("/getPaisName", getPaisesName);
+create.get("/getDepList", getDep);
+create.get("/getMunList", getMun);
+create.post("/getVereda", getVereda);
+create.get("/getVeredaList", getVeredaList);
+create.get("/getPersonList", getPersonList);
+create.post("/updateUser", updateUser);

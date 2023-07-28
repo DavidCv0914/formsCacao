@@ -3,26 +3,29 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { createUser, createVereda, getGroup, getRol } from "../../api/api";
+import { createUser, getGroup, getRol } from "../../api/api";
 import { ModalSearch } from "../formSearch/ModalSearch";
 
 export const FormUsuario = (props) => {
 
     const nameMunicipio = useRef(null)
+    const nameEmpresa = useRef(null)
     const [rol, setRol] = useState([]);
-    const [group, setGroup] = useState([]);
     const [show, setShow] = useState(true);
     const [choice, setChoice] = useState([]);
+    const [choiceEmpresa, setChoiceEmpresa] = useState([]);
     const [eventModal, setEventModal] = useState(false);
     const [type, setType] = useState("");
-    const [user,setUser] = useState({id:"",name:"",email:"",mun:"",address:"",number:"",rol:0,group:0,password:""})
+    const [user,setUser] = useState({id:"",name:"",email:"",mun:"",address:"",number:"",rol:0,empresa:"",password:""})
 
     const recibirDatos = (datos) => {
 
         if (datos.municipio) {
             setChoice(datos.municipio);
         }
-
+        if (datos.empresa) {
+            setChoiceEmpresa(datos.empresa);
+        }
         setEventModal(datos.close);
     };
 
@@ -32,15 +35,13 @@ export const FormUsuario = (props) => {
     };
 
     const handleChange = (e) => {
-        setUser({...user,[e.target.name]:e.target.value,mun:nameMunicipio.current.value})
+        setUser({...user,[e.target.name]:e.target.value,mun:nameMunicipio.current.value,nameEmpresa:nameEmpresa.current.value})
     }
 
     useEffect(()=>{
         const loadRol = async () =>{
             const resp = await getRol();
-            const resp1 = await getGroup();
             setRol(resp.data)
-            setGroup(resp1.data)
         };
         loadRol();
     },[])
@@ -101,6 +102,16 @@ export const FormUsuario = (props) => {
                                 placeholder="Escriba..."
                             />
                         </Form.Group>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Contraseña</Form.Label>
+                            <Form.Control
+                                onChange={handleChange}
+                                style={{ outlineColor: "#5D1F06", boxShadow: "0 0 5px #5D1F06", border: "solid 1px #5D1F06" }}
+                                name="password"
+                                type="password"
+                                placeholder="Escriba..."
+                            />
+                        </Form.Group>
                         <Form.Group>
                         <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Municipio de residencia</Form.Label>
                         <InputGroup className="mb-3">
@@ -146,28 +157,47 @@ export const FormUsuario = (props) => {
                                 placeholder="Escriba..."
                             />
                         </Form.Group>
-                        <Form.Select onChange={handleChange} name="rol" style={{height:"6vh",marginTop:"2vh",marginBottom:"2vh",outlineColor: "#5D1F06", boxShadow: "0 0 5px #5D1F06", border: "solid 1px #5D1F06"}} aria-label="Default select example">
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Rol</Form.Label>
+                        <Form.Select onChange={handleChange} name="rol" style={{height:"39.5px",outlineColor: "#5D1F06", boxShadow: "0 0 5px #5D1F06", border: "solid 1px #5D1F06"}} aria-label="Default select example">
                             <option>Rol de usuario</option>
                             {rol.length > 0 ? rol.map((i)=>(
                                 <option key={i.idrol} value={i.idrol}>{i.nombre}</option>
                             )) 
                             : null}
-                            
                         </Form.Select>
-                        <Form.Select onChange={handleChange} name="group" style={{height:"6vh",marginTop:"2vh",marginBottom:"2vh",outlineColor: "#5D1F06", boxShadow: "0 0 5px #5D1F06", border: "solid 1px #5D1F06"}} aria-label="Default select example">
-                            <option>Grupo de usuario</option>
-                            {group.length > 0 ? group.map((i)=>(
-                                <option key={i.idgrupousu} value={i.idgrupousu}>{i.nombre}</option>
-                            )) 
-                            : null}
-                        </Form.Select>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Contraseña</Form.Label>
+                        </Form.Group>
+                        <Form.Group>
+                        <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Empresa</Form.Label>
+                        <InputGroup className="mb-3">
                             <Form.Control
-                                onChange={handleChange}
+                                ref={nameEmpresa}
+                                placeholder="Escriba"
                                 style={{ outlineColor: "#5D1F06", boxShadow: "0 0 5px #5D1F06", border: "solid 1px #5D1F06" }}
-                                name="password"
-                                type="password"
+                                name="mun"
+                                defaultValue={choiceEmpresa ? choiceEmpresa.nombre : null}
+                            />
+                            <Button style={{
+                                display: "flex",
+                                alignItems: "center",
+                                backgroundColor: "#5D1F06",
+                                border: "solid 2px #5D1F06"
+                            }}
+                                id="button-addon2"
+                                onClick={() => {
+                                    setEventModal(!eventModal);
+                                    setType("Empresa");
+                                }}>
+                                <box-icon name='search' color="rgb(255 255 255)"></box-icon>
+                            </Button>
+                        </InputGroup>
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label style={{ color: "#5D1F06", fontWeight: "600" }}>Foto</Form.Label>
+                            <Form.Control
+                                style={{ outlineColor: "#5D1F06", boxShadow: "0 0 5px #5D1F06", border: "solid 1px #5D1F06" }}
+                                name="number"
+                                type="file"
                                 placeholder="Escriba..."
                             />
                         </Form.Group>
