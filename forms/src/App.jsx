@@ -21,6 +21,7 @@ const App = () => {
   const [infoVereda, setInfoVereda] = useState([]);
   const [infoUsuario, setInfoUsuario] = useState([]);
   const [booleanUpdate,setBooleanUpdate] = useState(true);
+  const [activarFilas, setActivarFilas] = useState([]);
 
   const handleShowPais = () => setShowPais(!showPais);
   const handleShowDepartamento = () => setShowDepartamento(!showDepartamento);
@@ -136,6 +137,12 @@ const App = () => {
     };
     loadUsuario();
   }, [booleanUpdate]);
+
+  const activarFila = (index) => {
+    const newActivarFilas = [...activarFilas];
+    newActivarFilas[index] = !newActivarFilas[index];
+    setActivarFilas(newActivarFilas);
+  };
 
   return (
     <>
@@ -480,20 +487,49 @@ const App = () => {
               <th scope="col">Nombre</th>
               <th scope="col">Correo</th>
               <th scope="col">Télefono</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Editar</th>
+              <th style={{width:"15vw"}} scope="col">Estado/Editar</th>
             </tr>
           </thead>
-          <tbody>
-            {infoUsuario.map((val) => {
+          <tbody> 
+            {infoUsuario.map((val,index) => {
               return (
                 <tr key={val.idusuario}>
                   <td>{val.idusuario}</td>
                   <td>{val.nombre}</td>
                   <td>{val.correo}</td>
                   <td>{val.telefonos}</td>
-                  <td>{val.estado == "A" ? "Activo" : "Inactivo"}</td>
-                  <td>{val.estado == "A" ? <Button style={{width:"90px"}} variant="danger" onClick={() => update(val.idusuario)}>Inactivar</Button> : <Button style={{width:"90px"}} variant="success" onClick={() => update(val.idusuario)}>Activar</Button>}</td>
+                
+                  <td>
+                    <div className="btn-group" role="group" aria-label="Basic example">
+                    {activarFilas[index] ? (
+                      <>
+                        <span style={{marginRight:'10px'}}>Activado</span>
+                        <button
+                        style={{background:'#7b4812',border:'#7b4812'}}
+                          type="button"
+                          onClick={() => {activarFila(index);
+                            update(val.idusuario)}}
+                          className="btn btn-danger"
+                        >
+                         <i className="fa-regular fa-circle-xmark"></i>
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <span style={{marginRight:'15px'}}>Inactivado</span>
+                        <button
+                        style={{background:'green',color:'white'}}
+                          type="button"
+                          onClick={() => {activarFila(index);
+                            update(val.idusuario)}}
+                          className="btn btn-info"
+                        >
+                          <i className="fa-regular fa-circle-check"></i>
+                        </button>
+                      </>
+                    )}
+                  </div>
+                  </td>
                 </tr>
               );
             })}
